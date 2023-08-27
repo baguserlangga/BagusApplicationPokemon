@@ -1,7 +1,8 @@
 package com.example.baguspokemonapplication.adapter
 
+import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baguspokemonapplication.DetailPokemonActivity
 import com.example.baguspokemonapplication.R
+import com.example.baguspokemonapplication.databinding.ItemListPokemonBinding
+import com.example.baguspokemonapplication.model.Abilities
 import com.example.baguspokemonapplication.model.PokemonListModel
-import java.util.Random
 
-
-class PokemonAdapter (private val mList: List<PokemonListModel>) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
+class AbilitiesAdapter (private val mList: List<Abilities>) : RecyclerView.Adapter<AbilitiesAdapter.ViewHolder>() {
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,15 +35,7 @@ class PokemonAdapter (private val mList: List<PokemonListModel>) : RecyclerView.
 //        holder.imageView.setImageResource(ItemsViewModel.image)
 
         // sets the text to the textview from our itemHolder class
-        holder.textViewNamaPokemon.text = ItemsViewModel.name
-        holder.textViewNamaPokemon.setOnClickListener{
-            val intent = Intent(holder.textViewNamaPokemon.context,DetailPokemonActivity::class.java)
-            intent.putExtra("namaPokemon", ItemsViewModel.name)
-            holder.textViewNamaPokemon.context.startActivity(intent)
-        }
-        val rnd = Random()
-        val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-        holder.textViewNamaPokemon.setBackgroundColor(color)
+        holder.textViewNamaPokemon.text = ItemsViewModel.ability!!.name
 
     }
 
@@ -55,7 +48,5 @@ class PokemonAdapter (private val mList: List<PokemonListModel>) : RecyclerView.
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
 //        val imageView: ImageView = itemView.findViewById(R.id.imageview)
         val textViewNamaPokemon: TextView = itemView.findViewById(R.id.textViewNamaPokemon)
-
-
     }
 }

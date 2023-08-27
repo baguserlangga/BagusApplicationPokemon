@@ -3,6 +3,7 @@ package com.example.baguspokemonapplication
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,26 +26,36 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         prepareRecyclerView()
+        binding.mRecycle.visibility = View.GONE
+
+
+//        pokemonAdapter.setdata(listPokemonModel)
+
+
         getPokemonlist()
         setContentView(binding.root)
     }
     private fun prepareRecyclerView() {
         var lm = LinearLayoutManager(this@MainActivity)
-        pokemonAdapter = PokemonAdapter(this@MainActivity,listPokemonModel)
+        pokemonAdapter = PokemonAdapter(listPokemonModel)
         binding.mRecycle.setHasFixedSize(true)
         binding.mRecycle.layoutManager = lm
         binding.mRecycle.adapter = pokemonAdapter
+
     }
 
     fun getPokemonlist() {
-
         RetrofitInstance.api.getPokemonList().enqueue(object  :
             Callback<ResponseListPokemon> {
             override fun onResponse(call: Call<ResponseListPokemon>, response: Response<ResponseListPokemon>) {
                 if (response.body()!=null){
 
+                    binding.mRecycle.visibility = View.VISIBLE
+                    binding.progressBar2.visibility = View.GONE
                     listPokemonModel.addAll(response.body()!!.results)
+
 
 
                     Log.d(ContentValues.TAG, "inionResponse: "  + listPokemonModel)
@@ -60,5 +71,6 @@ class MainActivity : AppCompatActivity() {
                 Log.d("TAGihan", t.message.toString())
             }
         })
+
     }
 }
